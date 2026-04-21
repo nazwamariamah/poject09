@@ -53,12 +53,12 @@ class UserController extends Controller
     //     return view('user.pengajuan.pengajuan');
     // }
 
-    public function worklist()
+    public function worklist() // tidak dipakai lagi
     {
         $proses_submissions = BudgetSubmission::with('user')->where('user_id', Auth::id())->get();
         $all_submissions = BudgetSubmission::with('user')->where('user_id', Auth::id())->latest()->paginate(10, ['*'], 'all_submit');
         $archive_submit = BudgetSubmission::with('user')->where('user_id', Auth::id())->where('is_archive', 1)->paginate(10, ['*'], 'archive_submit');
-        return view('user.worklist.worklist', compact('proses_submissions', 'all_submissions', 'archive_submit'));
+        return view('features.pengajuan.submit_monitoring', compact('proses_submissions', 'all_submissions', 'archive_submit'));
     }
 
     public function report(Request $request)

@@ -300,7 +300,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {{-- Lihat Semua Pengajuan --}}
-                    <a href="{{ route('keuangan.pengajuan') }}"
+                    <a href="{{ route('verification.index') }}"
                         class="flex items-center gap-4 p-3 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-lg border border-purple-200 hover:shadow-md transition-all">
                         <div class="p-3 bg-purple-500 rounded-lg">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
@@ -311,8 +311,8 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="font-semibold text-gray-800">Input Pengarsipan</p>
-                            <p class="text-xs text-gray-600">Kelola pengarsipan Anda</p>
+                            <p class="font-semibold text-gray-800">Lihat Pengajuan</p>
+                            <p class="text-xs text-gray-600">Verifikasi Pengajuan yang diajukan</p>
                         </div>
                     </a>
                 </div>

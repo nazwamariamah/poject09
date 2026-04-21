@@ -7,7 +7,7 @@
                         <img src="{{ asset('images/tvri.png') }}" class="h-12" alt="TVRI">
                         <span class="text-2xl font-extrabold bg-gradient-to-b from-[#001f65] to-[#6895fd] 
                                     bg-clip-text text-transparent tracking-wide">
-                            VANTRANS-AKU
+                            VVeP App
                         </span>
 
                     </div>

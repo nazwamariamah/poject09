@@ -153,6 +153,8 @@
                                         Kantor</option>
                                     <option value="Bendahara" {{ $user->role == 'Bendahara' ? 'selected' : '' }}>
                                         Bendahara</option>
+                                    <option value="PPSPM" {{ $user->role == 'PPSPM' ? 'selected' : '' }}>
+                                        Bendahara</option>
                                     <option value="Keuangan" {{ $user->role == 'Keuangan' ? 'selected' : '' }}>Keuangan
                                     </option>
                                     <option value="Program" {{ $user->role == 'Program' ? 'selected' : '' }}>Program

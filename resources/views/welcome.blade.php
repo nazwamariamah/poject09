@@ -22,7 +22,7 @@
                 <div class="flex items-center">
                     <div class="flex items-center gap-2">
                         <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-md"></div>
-                        <h1 class="text-xl font-bold text-slate-900">VATRANS AKU APP</h1>
+                        <h1 class="text-xl font-bold text-slate-900">VVeP APP</h1>
                     </div>
                 </div>
                 @if (Route::has('login'))
@@ -51,7 +51,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-4xl mx-auto">
                 <div class="inline-block mb-4 px-4 py-1.5 bg-blue-50 text-blue-700 rounded-full text-sm font-medium">
-                    Sistem Pengajuan & Arsip Digital
+                    Sistem Verifikasi dan Validasi Elektronik Pembayaran
                 </div>
                 <h2 class="text-4xl font-bold text-slate-900 sm:text-5xl md:text-6xl leading-relaxed">
                     Kelola Pengajuan dengan<br>
@@ -235,7 +235,7 @@
                 <div>
                     <div class="flex items-center gap-2 mb-4">
                         <div class="w-8 h-8 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-md"></div>
-                        <h4 class="text-lg font-semibold">VATRANS AKU APP</h4>
+                        <h4 class="text-lg font-semibold">VVeP APP</h4>
                     </div>
                     <p class="text-slate-400 leading-relaxed">
                         Solusi digital untuk mengelola pengajuan dan arsip dokumen dengan efisien dan aman.
@@ -282,7 +282,7 @@
                 </div>
             </div>
             <div class="border-t border-slate-800 mt-12 pt-8 text-center text-sm text-slate-400">
-                <p>&copy; {{ date('Y') }} FinanceApp. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} VVeP. All rights reserved.</p>
             </div>
         </div>
     </footer>

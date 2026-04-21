@@ -79,7 +79,7 @@ class FolderController extends Controller
             ]);
         }
 
-        return redirect()->route('rack.show', ['id' => $folder->id])->with('success', 'Berhasil Menambahkan Folder');
+        return redirect()->route('rack.show', ['rack' => $folder->id])->with('success', 'Berhasil Menambahkan Folder');
     }
 
     /**

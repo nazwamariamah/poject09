@@ -30,7 +30,7 @@ class BudgetSubmissionController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() // tidak dipakai lagi
     {
         // $users = User::where('role', 'Bendahara')->get();
         $payment_method = PaymentMethod::all();
@@ -38,7 +38,7 @@ class BudgetSubmissionController extends Controller
         return view('user.pengajuan.pengajuan', compact('payment_method', 'funding_source'));
     }
 
-    public function update_check(Request $request, $id)
+    public function update_check(Request $request, $id) // tidak dipakai lagi
     {
         $affected = BudgetSubmission::where('id', $id)
             ->where(function ($q) {
@@ -324,7 +324,7 @@ class BudgetSubmissionController extends Controller
     }
 
 
-    private function addWatermarkToPdf(string $filePath)
+    private function addWatermarkToPdf(string $filePath) // tidak dipakai lagi
     {
         if (!Storage::disk('private')->exists($filePath)) {
             Log::error('File PDF tidak ditemukan: ' . $filePath);
@@ -422,7 +422,7 @@ class BudgetSubmissionController extends Controller
         Log::info('Watermark PDF berhasil: ' . $filePath);
     }
 
-    public function perbaikan(Request $request, $id)
+    public function perbaikan(Request $request, $id) // tidak dipakai lagi
     {
         $pengajuan = BudgetSubmission::with('user')->with('finance_officer')->findOrFail($id);
         $request->validate([
@@ -487,7 +487,7 @@ class BudgetSubmissionController extends Controller
         return redirect()->route('user.worklist')->with('success', 'Berhasil Mengirim Pengajuan');
     }
 
-    public function download_pengajuan($id)
+    public function download_pengajuan($id) // tidak dipakai lagi
     {
         $file_metadata = BudgetSubmission::findOrFail($id);
 
@@ -498,7 +498,7 @@ class BudgetSubmissionController extends Controller
         return response()->download($path, $fileName);
     }
 
-    public function download_metadata_pengajuan($id)
+    public function download_metadata_pengajuan($id) // tidak dipakai lagi
     {
         $file_metadata = BudgetSubmission::findOrFail($id);
 
@@ -509,7 +509,7 @@ class BudgetSubmissionController extends Controller
         return response()->download($path, $fileName);
     }
 
-    public function lihat_pengajuan($id) // jika sudah diarsipkan
+    public function lihat_pengajuan($id) // jika sudah diarsipkan // tidak dipakai lagi
     {
         $file_pengajuan = BudgetSubmission::findOrFail($id);
 
@@ -520,7 +520,7 @@ class BudgetSubmissionController extends Controller
         return response()->file($path);
     }
 
-    public function final_verification(Request $request, $id)
+    public function final_verification(Request $request, $id) // tidak dipakai lagi
     {
         $affected = BudgetSubmission::where('id', $id)
             ->where(function ($q) {
@@ -654,7 +654,7 @@ class BudgetSubmissionController extends Controller
     }
 
     // Function BARU untuk watermark dengan nomor kuitansi
-    private function addWatermarkWithKuitansiToPdf(string $filePath, string $kuitansi)
+    private function addWatermarkWithKuitansiToPdf(string $filePath, string $kuitansi) // tidak dipakai lagi
     {
         if (!Storage::disk('private')->exists($filePath)) {
             Log::error('File PDF tidak ditemukan: ' . $filePath);
@@ -759,7 +759,7 @@ class BudgetSubmissionController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) // revisi tanggal
+    public function store(Request $request) // revisi tanggal // tidak dipakai lagi
     {
         $request->validate([
             'nama_pengajuan' => 'required|string',
@@ -854,7 +854,7 @@ class BudgetSubmissionController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $id) // tidak dipakai lagi
     {
         $payment_method = PaymentMethod::all();
         $funding_source = FundingSource::all();
@@ -946,7 +946,7 @@ class BudgetSubmissionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $id) // tidak dipakai lagi
     {
         $pengajuan = BudgetSubmission::findOrFail($id);
         $payment_method = PaymentMethod::all();
@@ -957,7 +957,7 @@ class BudgetSubmissionController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id) // belum sempurna
+    public function update(Request $request, string $id) // belum sempurna  // tidak dipakai lagi
     {
         $pengajuan = BudgetSubmission::findOrFail($id);
         $request->validate([
@@ -1002,7 +1002,7 @@ class BudgetSubmissionController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) // oke
+    public function destroy(string $id) // oke // tidak dipakai lagi
     {
         $pengajuan = BudgetSubmission::findOrFail($id);
 

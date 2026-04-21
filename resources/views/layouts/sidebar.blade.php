@@ -14,7 +14,7 @@
             <div class="flex flex-col">
                 <span
                     class="font-bold text-xm bg-gradient-to-b from-[#ffffff] to-[#6895fd]
-                        bg-clip-text text-transparent tracking-wide hidden sm:block">VANTRANS-AKU</span>
+                        bg-clip-text text-transparent tracking-wide hidden sm:block">VVeP App</span>
                 <span class="text-xs text-gray-400 font-medium">{{ Auth::user()->role }}</span>
             </div>
         </a>
@@ -34,6 +34,7 @@
                 'Admin' => route('admin.dashboard'),
                 'Keuangan' => route('keuangan.dashboard'),
                 'Bendahara' => route('bendahara.dashboard'),
+                'PPSPM' => route('PPSPM.dashboard'),
                 'Kepala Kantor TVRI' => route('kepala.dashboard'),
                 default => route('user.dashboard'),
             };
@@ -44,13 +45,13 @@
             };
 
             $roleInputArsip =
-                in_array($role, ['Admin', 'Bendahara', 'Keuangan', 'Kepala Kantor TVRI']) || $privileged ? route('admin.archive') : '#';
+                in_array($role, ['Admin', 'Bendahara', 'Keuangan', 'Kepala Kantor TVRI', 'PPSPM']) || $privileged ? route('cabinet.index') : '#';
 
             $roleKelolaUser = $role === 'Admin' ? route('account.index') : '#';
 
-            $pengajuan = in_array($role, ['Admin', 'Keuangan']) ? '#' : route('pengajuan.index');
+            $pengajuan = in_array($role, ['Admin', 'Keuangan']) ? '#' : route('submit.index');
 
-            $worklist = in_array($role, ['Admin', 'Keuangan']) ? '#' : route('user.worklist');
+            $worklist = in_array($role, ['Admin', 'Keuangan']) ? '#' : route('user.monitoring');
 
             $roleDigitalArsip = in_array($role, ['Keuangan', 'Bendahara']) ? route('digital.index') : '#';
 
@@ -80,7 +81,7 @@
                 'Digital Arsip' => 'M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4',
                 'Pengajuan' =>
                     'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z',
-                'Worklist' =>
+                'Monitoring' =>
                     'M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2',
                 'Notifikasi' =>
                     'M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0h6z',
@@ -108,7 +109,7 @@
             } elseif ($role === 'Keuangan') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
-                    ['label' => 'Pengajuan', 'href' => route('keuangan.pengajuan'), 'icon' => $icons['Pengajuan']],
+                    ['label' => 'Pengajuan', 'href' => route('verification.index'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                     [
@@ -122,7 +123,7 @@
             } elseif ($role === 'Bendahara') {
                 $menuItems = [
                     ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
-                    ['label' => 'Pengajuan', 'href' => route('bendahara.pengajuan'), 'icon' => $icons['Pengajuan']],
+                    ['label' => 'Pengajuan', 'href' => route('final.index'), 'icon' => $icons['Pengajuan']],
                     // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
                     ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                     
@@ -133,6 +134,21 @@
                         'badge' => $unreadCount,
                     ],
                     ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
+                ];
+            } elseif ($role === 'PPSPM') {
+                $menuItems = [
+                    ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
+                    ['label' => 'Pengajuan', 'href' => route('validation.index'), 'icon' => $icons['Pengajuan']],
+                    // ['label' => 'Digital Arsip', 'href' => $roleDigitalArsip, 'icon' => $icons['Digital Arsip']],
+                    ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
+                    
+                    [
+                        'label' => 'Notifikasi',
+                        'href' => $notificationRoute,
+                        'icon' => $icons['Notifikasi'],
+                        'badge' => $unreadCount,
+                    ],
+                    // ['label' => 'Report', 'href' => $roleReport, 'icon' => $icons['Report']],
                 ];
             } elseif ($role === 'Kepala Kantor TVRI') {
                 $menuItems = [
@@ -154,7 +170,7 @@
                     $menuItems = [
                         ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
                         ['label' => 'Pengajuan', 'href' => $pengajuan, 'icon' => $icons['Pengajuan']],
-                        ['label' => 'Worklist', 'href' => $worklist, 'icon' => $icons['Worklist']],
+                        ['label' => 'Monitoring', 'href' => $worklist, 'icon' => $icons['Monitoring']],
                         ['label' => 'Arsip', 'href' => $roleInputArsip, 'icon' => $icons['Input Arsip']],
                         [
                             'label' => 'Notifikasi',
@@ -168,7 +184,7 @@
                     $menuItems = [
                         ['label' => 'Dashboard', 'href' => $roleDashboard, 'icon' => $icons['Dashboard']],
                         ['label' => 'Pengajuan', 'href' => $pengajuan, 'icon' => $icons['Pengajuan']],
-                        ['label' => 'Worklist', 'href' => $worklist, 'icon' => $icons['Worklist']],
+                        ['label' => 'Monitoring', 'href' => $worklist, 'icon' => $icons['Monitoring']],
                         [
                             'label' => 'Notifikasi',
                             'href' => $notificationRoute,

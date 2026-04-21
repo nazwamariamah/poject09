@@ -153,7 +153,7 @@
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {{-- Lihat Semua Pengajuan --}}
-                    <a href="{{ route('bendahara.pengajuan') }}"
+                    <a href="{{ route('final.index') }}"
                         class="flex items-center gap-4 p-3 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-lg border border-purple-200 hover:shadow-md transition-all">
                         <div class="p-3 bg-purple-500 rounded-lg">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"

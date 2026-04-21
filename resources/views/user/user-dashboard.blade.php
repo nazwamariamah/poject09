@@ -125,7 +125,7 @@
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {{-- Buat Pengajuan Baru --}}
-                        <a href="{{ route('pengajuan.index') }}"
+                        <a href="{{ route('submit.index') }}"
                             class="flex items-center gap-4 p-5 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-lg border border-blue-200 hover:shadow-md transition-all">
                             <div class="p-3 bg-blue-500 rounded-lg">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
@@ -141,7 +141,7 @@
                         </a>
 
                         {{-- Lihat Semua Pengajuan --}}
-                        <a href="{{ route('user.worklist') }}"
+                        <a href="{{ route('user.monitoring') }}"
                             class="flex items-center gap-4 p-5 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-lg border border-purple-200 hover:shadow-md transition-all">
                             <div class="p-3 bg-purple-500 rounded-lg">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
@@ -189,7 +189,7 @@
                             </div>
                             <h3 class="text-lg font-semibold text-gray-800">Pengajuan Terbaru</h3>
                         </div>
-                        <a href="{{ route('user.worklist') }}"
+                        <a href="{{ route('user.monitoring') }}"
                             class="text-sm text-blue-600 hover:text-blue-700 font-medium">
                             Lihat Semua →
                         </a>

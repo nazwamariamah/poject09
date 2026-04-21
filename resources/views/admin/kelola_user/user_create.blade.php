@@ -163,6 +163,7 @@
                                     <option value="" selected disabled>-- Pilih Role --</option>
                                     <option value="Kepala Kantor TVRI" class="bg-yellow-100">Kepala Kantor TVRI</option>
                                     <option value="Bendahara" class="bg-blue-100">Bendahara</option>
+                                    <option value="PPSPM" class="bg-blue-100">PPSPM</option>
                                     <option value="Keuangan" class="bg-blue-100">Keuangan</option>
                                     <option value="Program">Program</option>
                                     <option value="Berita">Berita</option>

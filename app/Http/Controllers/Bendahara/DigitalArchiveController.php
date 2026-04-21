@@ -90,31 +90,54 @@ class DigitalArchiveController extends Controller
     /**
      * Update the specified resource in storage.
      */
+
     public function update(Request $request, string $id)
     {
-        // Cari data arsip
+        // Ambil data arsip
         $archive = DigitalArchive::findOrFail($id);
-        
-        // Handle upload file baru jika ada
+
+        // Validasi data (sesuaikan jika perlu)
+        $validated = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'digital_name' => 'required|string|max:255',
+            'from_division' => 'nullable|string|max:255',
+            'submiter_name' => 'nullable|string|max:255',
+            'finance_officer_name' => 'nullable|string|max:255',
+            'revenue_officer_name' => 'nullable|string|max:255',
+            'archive_code' => 'nullable|string|max:100',
+            'nominal' => 'nullable|numeric',
+            'archive_by' => 'nullable|string|max:255',
+            'disposal_date' => 'nullable|date',
+            'status' => 'nullable|required',
+            'keterangan' => 'nullable|string',
+            'link_arsip' => 'nullable|string',
+            // field lain otomatis ikut karena fillable
+        ]);
+
+        // Handle upload file jika ada
         if ($request->hasFile('file_path_archive')) {
-            // Hapus file lama jika ada
-            if ($archive->file_path_archive && Storage::disk('private')->exists($archive->file_path_archive)) {
+
+            // hapus file lama
+            if (
+                $archive->file_path_archive &&
+                Storage::disk('private')->exists($archive->file_path_archive)
+            ) {
                 Storage::disk('private')->delete($archive->file_path_archive);
             }
-            
-            // Upload file baru
+
+            // simpan file baru
             $file = $request->file('file_path_archive');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = $file->storeAs('archive', $fileName, 'private');
-            
-            // Set file path ke request
-            $request->merge(['file_path_archive' => $filePath]);
+
+            // masukkan path ke data update
+            $validated['file_path_archive'] = $filePath;
         }
-        
-        // Update data arsip dengan semua data dari request
-        $archive->update($request->all());
-        
-        // Redirect dengan pesan sukses
+
+        // Update data (AMAN)
+        $archive->update($validated);
+
+        // Redirect sukses
         return redirect()
             ->route('year.show', $archive->category_id)
             ->with('success', 'Arsip digital berhasil diperbarui!');

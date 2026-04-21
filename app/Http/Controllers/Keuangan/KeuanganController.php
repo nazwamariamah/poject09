@@ -82,7 +82,7 @@ class KeuanganController extends Controller
         return redirect()->route('admin.archive');
     }
 
-    public function all_submit()
+    public function all_submit() // tidak dipakai lagi
     {
         $all_submit = BudgetSubmission::latest()->paginate(10, ['*'], 'all_submit');
         $not_check_submit = BudgetSubmission::where('requirements_status', 'Belum Diperiksa')->latest()->paginate('10', ['*'], 'not_check');
@@ -94,9 +94,10 @@ class KeuanganController extends Controller
         return view('keuangan.pengajuan', compact('all_submit', 'not_check_submit', 'my_proses'));
     }
 
-    public function check_pengajuan($id)
+    public function check_pengajuan($id) // tidak dipakai lagi
     {
         $pengajuan = BudgetSubmission::with('user')->findOrFail($id);
+
         if (Storage::disk('private')->exists($pengajuan->path_file_requirements_status)) {
             $filePathMetadata = Storage::disk('private')->path($pengajuan->path_file_requirements_status);
             $spreadsheet = IOFactory::load($filePathMetadata);
@@ -275,7 +276,7 @@ class KeuanganController extends Controller
         return view('keuangan.check-pengajuan', compact('pengajuan', 'namaKegiatan', 'kuitansi', 'syaratDoc', 'ada', 'tidakada', 'tidakperlu', 'lengkap', 'belum', 'keterangan', 'catatan'));
     }
 
-    public function search_pengajuan(Request $request)
+    public function search_pengajuan(Request $request) // tidak dipakai lagi
     {
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $submit = BudgetSubmission::with('user')

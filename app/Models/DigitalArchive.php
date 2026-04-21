@@ -10,7 +10,7 @@ class DigitalArchive extends Model
     use HasFactory;
 
     protected $fillable = [
-        'id',
+        // 'id',
         'category_id',
         'archive_name',
         'from_division',
@@ -22,8 +22,8 @@ class DigitalArchive extends Model
         'nominal',
         'archive_by',
         'disposal_date',
-        'created_at',
-        'updated_at',
+        // 'created_at',
+        // 'updated_at',
         'kode_klasifikasi',
         'indeks1',
         'indeks2',

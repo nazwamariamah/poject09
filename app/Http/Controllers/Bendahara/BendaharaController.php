@@ -76,7 +76,7 @@ class BendaharaController extends Controller
         ));
     }
 
-    public function document_sign($id)
+    public function document_sign($id) // tidak dipakai lagi
     {
         $pengajuan = BudgetSubmission::with('user')
             ->with('finance_officer')
@@ -88,7 +88,7 @@ class BendaharaController extends Controller
         return view('bendahara.final-verifikasi', compact('pengajuan', 'cabinets', 'payment_method', 'funding_source'));
     }
 
-    public function pengajuan()
+    public function pengajuan() // tidak dipakai lagi
     {
         $submit_sign = BudgetSubmission::where('is_archive', 0)->paginate(10, ['*'], 'submit_no_sign');
         $pengajuans = BudgetSubmission::where('requirements_status', 'Lengkap')
@@ -184,7 +184,7 @@ class BendaharaController extends Controller
         return response($mpdf->Output('Laporan Semua Pengajuan yang ditanda tangani.pdf', 'S'))->header('Content-Type', 'application/pdf');
     }
 
-    public function search_pengajuan(Request $request)
+    public function search_pengajuan(Request $request) // tidak dipakai lagi
     {
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $submit = BudgetSubmission::with('user')

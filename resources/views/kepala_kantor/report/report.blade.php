@@ -32,7 +32,7 @@
                                 <h3 class="text-lg font-semibold text-gray-800">Filter Berdasarkan Tanggal</h3>
                             </div>
                             
-                            <form method="GET" action="{{route('keuangan.report')}}" class="flex flex-wrap gap-4 items-end">
+                            <form method="GET" action="{{route('kepala.report')}}" class="flex flex-wrap gap-4 items-end">
                                 <div class="flex-1 min-w-[200px]">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Dari Tanggal</label>
                                     <input type="date" name="from_date" value="{{ request('from_date') }}"
@@ -45,7 +45,7 @@
                                         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                                 </div>
                                 
-                                <button type="submit" 
+                                <button type="ar" 
                                     class="px-6 py-2 bg-[#003A8F] hover:bg-blue-800 text-white font-medium rounded-md transition-colors duration-200 flex items-center gap-2">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -57,7 +57,7 @@
 
                         {{-- Report Links --}}
                         <div class="grid md:grid-cols-2 gap-4">
-                            <a href="{{route('keuangan.report.semua_pengajuan' ,[
+                            <a href="{{route('kepala.report_aktif' ,[
                                 'from_date' => request('from_date'),
                                 'target_date' => request('target_date'),
                             ])}}" target="blank" class="group p-6 bg-white border-2 border-gray-200 rounded-md hover:border-blue-500 hover:shadow-md transition-all duration-200">
@@ -68,8 +68,8 @@
                                         </svg>
                                     </div>
                                     <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Laporan Semua Pengajuan</h4>
-                                        <p class="text-sm text-gray-500 mt-1">Buat laporan semua pengajuan yang dibuat UM</p>
+                                        <h4 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">Laporan Arisp Aktif</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Semua Arsip Berstatus Aktif</p>
                                     </div>
                                     <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -77,7 +77,7 @@
                                 </div>
                             </a>
 
-                            <a href="{{route('keuangan.report.pengajuan_diverifikasi' ,[
+                            <a href="{{route('kepala.report_approved' ,[
                                 'from_date' => request('from_date'),
                                 'target_date' => request('target_date'),
                             ])}}" target="blank" class="group p-6 bg-white border-2 border-gray-200 rounded-md hover:border-green-500 hover:shadow-md transition-all duration-200">
@@ -88,8 +88,8 @@
                                         </svg>
                                     </div>
                                     <div class="flex-1">
-                                        <h4 class="font-semibold text-gray-800 group-hover:text-green-600 transition-colors">Laporan Pengajuan Diverifikasi</h4>
-                                        <p class="text-sm text-gray-500 mt-1">Laporan yang sudah diverifikasi</p>
+                                        <h4 class="font-semibold text-gray-800 group-hover:text-green-600 transition-colors">Laporan Arsip yang disetujui</h4>
+                                        <p class="text-sm text-gray-500 mt-1">Laporan arsip dengan data lengkap yang disetujui</p>
                                     </div>
                                     <svg class="w-5 h-5 text-gray-400 group-hover:text-green-600 group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -112,7 +112,7 @@
                                 <h3 class="text-lg font-semibold text-gray-800">Daftar Pengajuan</h3>
                             </div>
                             <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-md">
-                                {{ $submission->count() }} Item
+                                {{ $arsip->count() }} Item
                             </span>
                         </div>
 
@@ -120,7 +120,7 @@
                         <div class="space-y-3">
                             @php $no = 1; @endphp
 
-                            @forelse ($submission as $submit)
+                            @forelse ($arsip as $ar)
                                 <div class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
                                     {{-- Number Badge --}}
                                     <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#003A8F] text-white font-semibold text-sm rounded-md">
@@ -128,9 +128,9 @@
                                     </div>
 
                                     {{-- Content --}}
-                                    <a href="{{ route('pengajuan.show', $submit->id) }}" class="flex-1 px-4">
+                                    <a href="{{ route('pengajuan.show', $ar->id) }}" class="flex-1 px-4">
                                         <div class="font-semibold text-gray-800 mb-2">
-                                            {{ $submit->budget_submission_name }}
+                                            {{ $ar->archive_name }}
                                         </div>
 
                                         <div class="flex flex-wrap items-center gap-3 text-sm">
@@ -138,21 +138,21 @@
                                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                                 </svg>
-                                                Dibuat: {{ $submit->created_at->format('d M Y') }}
+                                                Dibuat: {{ $ar->created_at->format('d M Y') }}
                                             </div>
                                             
                                             <div class="flex items-center text-gray-600">
                                                 <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg>
-                                                Diperbarui: {{ $submit->updated_at->diffForHumans() }}
+                                                Diperbarui: {{ $ar->updated_at->diffForHumans() }}
                                             </div>
 
                                             <div class="flex items-center text-gray-600">
                                                 {{-- <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                 </svg> --}}
-                                                Divisi: {{ $submit->user->role }}
+                                                Divisi: {{ $ar->from_division }}
                                             </div>
                                         </div>
                                     </a>
