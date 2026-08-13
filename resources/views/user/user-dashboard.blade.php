@@ -127,7 +127,7 @@
                         {{-- Buat Pengajuan Baru --}}
                         <a href="{{ route('submit.index') }}"
                             class="flex items-center gap-4 p-5 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-lg border border-blue-200 hover:shadow-md transition-all">
-                            <div class="p-3 bg-blue-500 rounded-lg">
+                            <div class="p-3 bg-blue-500 rounded-lg flex-shrink-0">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -143,7 +143,7 @@
                         {{-- Lihat Semua Pengajuan --}}
                         <a href="{{ route('user.monitoring') }}"
                             class="flex items-center gap-4 p-5 bg-gradient-to-br from-purple-50 to-purple-100/50 rounded-lg border border-purple-200 hover:shadow-md transition-all">
-                            <div class="p-3 bg-purple-500 rounded-lg">
+                            <div class="p-3 bg-purple-500 rounded-lg flex-shrink-0">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -156,23 +156,6 @@
                                 <p class="text-xs text-gray-600">Kelola pengajuan Anda</p>
                             </div>
                         </a>
-
-                        {{-- Arsip Digital --}}
-                        {{-- <a href="{{ route('digital.index') }}"
-                            class="flex items-center gap-4 p-5 bg-gradient-to-br from-teal-50 to-teal-100/50 rounded-lg border border-teal-200 hover:shadow-md transition-all">
-                            <div class="p-3 bg-teal-500 rounded-lg">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4">
-                                    </path>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800">Arsip Digital</p>
-                                <p class="text-xs text-gray-600">Lihat arsip dokumen</p>
-                            </div>
-                        </a> --}}
                     </div>
                 </div>
 
@@ -196,29 +179,26 @@
                     </div>
 
                     @forelse ($submission_new ?? [] as $submit)
-                        <div
-                            class="flex items-center justify-between p-4 mb-3 last:mb-0 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition">
-                            <div class="flex items-center gap-4 flex-1">
-                                <div
-                                    class="w-10 h-10 flex items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold text-sm rounded-lg">
-                                    {{ $loop->iteration }}
+                        <div class="flex items-center justify-between p-4 mb-3 last:mb-0 bg-gray-50 rounded-lg border border-gray-200 hover:shadow-sm transition gap-4">
+                            <div class="flex items-center gap-3 flex-1 min-w-0">
+                                {{-- Nomor Urut Dinamis yang Berlanjut per Halaman --}}
+                                <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-gradient-to-br from-blue-500 to-blue-600 text-white font-bold text-sm rounded-lg">
+                                    {{ method_exists($submission_new, 'firstItem') ? $submission_new->firstItem() + $loop->index : $loop->iteration }}
                                 </div>
                                 <div class="flex-1 min-w-0">
-                                    <p class="font-semibold text-gray-800 truncate">
+                                    <p class="font-semibold text-gray-800 text-sm line-clamp-2 break-words">
                                         {{ $submit->budget_submission_name }}
                                     </p>
-                                    <div class="flex items-center gap-2 mt-1">
+                                    <div class="flex items-center gap-2 mt-1 flex-wrap">
                                         <span class="text-xs text-gray-500">
                                             {{ $submit->created_at->diffForHumans() }}
                                         </span>
                                         @if ($submit->requirements_status == 'Lengkap')
-                                            <span
-                                                class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">
+                                            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">
                                                 Lengkap
                                             </span>
                                         @else
-                                            <span
-                                                class="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700">
+                                            <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700">
                                                 Belum Lengkap
                                             </span>
                                         @endif
@@ -226,14 +206,13 @@
                                 </div>
                             </div>
                             <a href="{{ route('pengajuan.show', $submit->id) }}"
-                                class="flex-shrink-0 ml-4 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg">
+                                class="flex-shrink-0 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors">
                                 Detail
                             </a>
                         </div>
                     @empty
                         <div class="text-center py-8">
-                            <div
-                                class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
+                            <div class="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center mx-auto mb-3">
                                 <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -243,7 +222,7 @@
                             </div>
                             <p class="text-gray-500 text-sm mb-4">Belum ada pengajuan</p>
                             <a href="{{ route('pengajuan.index') }}"
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg">
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M12 4v16m8-8H4"></path>
@@ -253,15 +232,18 @@
                         </div>
                     @endforelse
 
-                    {{ $submission_new->links() }}
+                    @if(method_exists($submission_new, 'links'))
+                        <div class="mt-4">
+                            {{ $submission_new->links() }}
+                        </div>
+                    @endif
                 </div>
 
                 {{-- ================= INFO & BANTUAN ================= --}}
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                     {{-- Tips --}}
-                    <div
-                        class="bg-gradient-to-br from-green-50 to-emerald-100/50 rounded-xl p-6 border border-green-200">
+                    <div class="bg-gradient-to-br from-green-50 to-emerald-100/50 rounded-xl p-6 border border-green-200">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="p-2 bg-green-500 rounded-lg">
                                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
@@ -303,20 +285,15 @@
                         </div>
                         <ul class="space-y-2 text-sm text-gray-700">
                             <li class="flex items-start gap-2">
-                                <span
-                                    class="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700">Belum
-                                    Lengkap</span>
+                                <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700">Belum Lengkap</span>
                                 <span>Dokumen perlu dilengkapi</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span
-                                    class="px-2 py-0.5 text-xs font-medium rounded-full bg-red-100 text-red-700">Belum
-                                    Diverifikasi</span>
+                                <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-red-100 text-red-700">Belum Diverifikasi</span>
                                 <span>Menunggu verifikasi</span>
                             </li>
                             <li class="flex items-start gap-2">
-                                <span
-                                    class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">Selesai</span>
+                                <span class="px-2 py-0.5 text-xs font-medium rounded-full bg-green-100 text-green-700">Selesai</span>
                                 <span>Pengajuan telah selesai</span>
                             </li>
                         </ul>

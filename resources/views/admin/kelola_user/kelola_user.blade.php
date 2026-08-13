@@ -34,7 +34,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Administrator</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ $users->where('role', 'Admin')->count() }}
+                                {{ $users->whereIn('role', ['Admin', 'admin'])->count() }}
                             </h3>
                             <p class="text-xs text-red-600 mt-2 font-semibold">Administrator aktif</p>
                         </div>
@@ -52,7 +52,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">User Biasa</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ $users->where('role',  '!=', 'Admin')->count() }}
+                                {{ $users->whereNotIn('role', ['Admin', 'admin'])->count() }}
                             </h3>
                             <p class="text-xs text-green-600 mt-2 font-semibold">Pengguna standar</p>
                         </div>
@@ -69,8 +69,8 @@
             <div class="bg-white shadow-2xl rounded-2xl overflow-hidden">
 
                 {{-- HEADER --}}
-                <div class="bg-gradient-to-b from-[#003A8F] to-[#002766] p-2">
-                    <div class="flex justify-between items-center">
+                <div class="bg-gradient-to-b from-[#003A8F] to-[#002766] p-6">
+                    <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
                         <div class="flex items-center gap-4">
                             <div class="p-3 bg-white bg-opacity-20 rounded-xl backdrop-blur-sm">
                                 <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -93,6 +93,36 @@
                             Register User Baru
                         </a>
                     </div>
+                </div>
+
+                {{-- SEARCH BAR SECTION --}}
+                <div class="p-6 bg-white border-b border-gray-200">
+                    <form action="{{ route('account.index') }}" method="GET" class="flex flex-col sm:flex-row gap-3">
+                        <div class="relative flex-1">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                                <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </div>
+                            <input 
+                                type="text" 
+                                name="search" 
+                                value="{{ request('search') }}" 
+                                placeholder="Cari nama, email, role, atau sub-role user..." 
+                                class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm text-gray-800 transition-all"
+                            >
+                        </div>
+                        <div class="flex gap-2">
+                            <button type="submit" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-xl transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2">
+                                Cari
+                            </button>
+                            @if(request('search'))
+                                <a href="{{ route('account.index') }}" class="px-5 py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-semibold text-sm rounded-xl transition-all shadow-md flex items-center justify-center">
+                                    Reset
+                                </a>
+                            @endif
+                        </div>
+                    </form>
                 </div>
 
                 {{-- TABLE USER --}}
@@ -186,7 +216,7 @@
 
                                         {{-- Role --}}
                                         <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($user->role === 'admin')
+                                            @if(strtolower($user->role) === 'admin')
                                                 <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-red-500 to-pink-600 text-white shadow-md">
                                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                         <path fill-rule="evenodd" d="M9.504 1.132a1 1 0 01.992 0l1.75 1a1 1 0 11-.992 1.736L10 3.152l-1.254.716a1 1 0 11-.992-1.736l1.75-1zM5.618 4.504a1 1 0 01-.372 1.364L5.016 6l.23.132a1 1 0 11-.992 1.736L4 7.723V8a1 1 0 01-2 0V6a.996.996 0 01.52-.878l1.734-.99a1 1 0 011.364.372zm8.764 0a1 1 0 011.364-.372l1.733.99A1.002 1.002 0 0118 6v2a1 1 0 11-2 0v-.277l-.254.145a1 1 0 11-.992-1.736l.23-.132-.23-.132a1 1 0 01-.372-1.364zm-7 4a1 1 0 011.364-.372L10 8.848l1.254-.716a1 1 0 11.992 1.736L11 10.58V12a1 1 0 11-2 0v-1.42l-1.246-.712a1 1 0 01-.372-1.364zM3 11a1 1 0 011 1v1.42l1.246.712a1 1 0 11-.992 1.736l-1.75-1A1 1 0 012 14v-2a1 1 0 011-1zm14 0a1 1 0 011 1v2a1 1 0 01-.504.868l-1.75 1a1 1 0 11-.992-1.736L16 13.42V12a1 1 0 011-1zm-9.618 5.504a1 1 0 011.364-.372l.254.145V16a1 1 0 112 0v.277l.254-.145a1 1 0 11.992 1.736l-1.735.992a.995.995 0 01-1.022 0l-1.735-.992a1 1 0 01-.372-1.364z" clip-rule="evenodd"/>
@@ -194,8 +224,7 @@
                                                     Admin
                                                 </span>
                                             @else
-                                                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md 
-                                                {{ $user->role === 'admin' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700' }}">
+                                                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md">
                                                     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                                                         <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
                                                     </svg>
@@ -240,7 +269,7 @@
                     {{-- Pagination Footer --}}
                     @if(method_exists($users, 'links'))
                     <div class="bg-gray-50 px-6 py-4 border-t border-gray-200">
-                        {{ $users->links() }}
+                        {{ $users->appends(request()->query())->links() }}
                     </div>
                     @endif
 
@@ -252,17 +281,26 @@
                                 <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
                             </svg>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-700 mb-3">Belum Ada User</h3>
+                        <h3 class="text-2xl font-bold text-gray-700 mb-3">
+                            {{ request('search') ? 'User Tidak Ditemukan' : 'Belum Ada User' }}
+                        </h3>
                         <p class="text-gray-500 mb-8 max-w-md mx-auto">
-                            Mulai dengan mendaftarkan user pertama untuk sistem Anda.
+                            {{ request('search') ? 'Coba gunakan kata kunci pencarian yang lain.' : 'Mulai dengan mendaftarkan user pertama untuk sistem Anda.' }}
                         </p>
-                        <a href="{{ route('account.create') }}"
-                            class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
-                            </svg>
-                            Register User Pertama
-                        </a>
+                        @if(request('search'))
+                            <a href="{{ route('account.index') }}"
+                                class="inline-flex items-center gap-2 bg-gray-600 hover:bg-gray-700 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg transition-all duration-300">
+                                Lihat Semua User
+                            </a>
+                        @else
+                            <a href="{{ route('account.create') }}"
+                                class="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>
+                                </svg>
+                                Register User Pertama
+                            </a>
+                        @endif
                     </div>
                 @endif
 

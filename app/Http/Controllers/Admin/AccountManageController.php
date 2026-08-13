@@ -10,12 +10,21 @@ use Illuminate\Support\Facades\Hash;
 class AccountManageController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource with Search capability.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        return view('admin.kelola_user.kelola_user', compact('users'));
+        $search = $request->input('search');
+
+        // Filter data user berdasarkan nama, email, role, atau sub_role
+        $users = User::when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%")
+                         ->orWhere('email', 'like', "%{$search}%")
+                         ->orWhere('role', 'like', "%{$search}%")
+                         ->orWhere('sub_role', 'like', "%{$search}%");
+        })->get();
+
+        return view('admin.kelola_user.kelola_user', compact('users', 'search'));
     }
 
     /**
@@ -105,7 +114,6 @@ class AccountManageController extends Controller
 
         return redirect()->route('account.index')->with('success', 'Akun berhasil diperbarui');
     }
-
 
     /**
      * Remove the specified resource from storage.

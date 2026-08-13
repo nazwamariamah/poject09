@@ -19,10 +19,16 @@ class AdminDashboardController extends Controller
         // Jumlah user
         $jumlahUser = User::count();
 
+        // Data statistik untuk Grafik (Chart.js)
+        $chartLabels = ['Dokumen Tersimpan', 'Belum Upload File'];
+        $chartValues = [$dokumenTersimpan, $dokumenTidakTersimpan];
+
         return view('admin.admin-dashboard', compact(
             'dokumenTersimpan',
             'dokumenTidakTersimpan',
-            'jumlahUser'
+            'jumlahUser',
+            'chartLabels',
+            'chartValues'
         ));
     }
 }

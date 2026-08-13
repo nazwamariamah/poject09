@@ -4,7 +4,7 @@
             Dashboard
         </h2>
     </x-slot>
-       
+        
     <div class="py-10 bg-gray-50 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
@@ -34,7 +34,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Jumlah Arsip</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ $arsip }}
+                                {{ $arsip ?? $dokumenTersimpan }}
                             </h3>
                             <p class="text-xs text-purple-600 mt-2 font-semibold">Dokumen diarsipkan</p>
                         </div>
@@ -52,7 +52,7 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Jumlah Pengajuan</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ $pengajuan }}
+                                {{ $pengajuan ?? ($dokumenTersimpan + $dokumenTidakTersimpan) }}
                             </h3>
                             <p class="text-xs text-orange-600 mt-2 font-semibold">Total pengajuan masuk</p>
                         </div>
@@ -70,9 +70,8 @@
                         <div>
                             <p class="text-sm font-medium text-gray-500 uppercase tracking-wide">Jumlah User</p>
                             <h3 class="text-4xl font-extrabold text-gray-800 mt-3">
-                                {{ $akun }}
+                                {{ $akun ?? $jumlahUser }}
                             </h3>
-                            {{-- <p class="text-xs text-blue-600 mt-2 font-semibold">User aktif</p> --}}
                         </div>
                         <div class="p-4 bg-blue-100 rounded-xl group-hover:bg-blue-500 transition-colors duration-300">
                             <svg class="w-8 h-8 text-blue-600 group-hover:text-white transition-colors duration-300" fill="currentColor" viewBox="0 0 20 20">
@@ -82,6 +81,25 @@
                     </div>
                 </div>
 
+            </div>
+
+            {{-- CHART SECTION --}}
+            <div class="bg-white p-8 rounded-2xl shadow-lg mb-8">
+                <div class="flex items-center justify-between pb-3 border-b-2 border-gray-200 mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-100 rounded-md flex items-center justify-center">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800">Statistik Kelengkapan Dokumen</h3>
+                    </div>
+                </div>
+                
+                <div class="max-w-xs mx-auto" style="height: 280px;">
+                    <canvas id="documentChart"></canvas>
+                </div>
             </div>
 
             {{-- LIST ARSIP SECTION --}}
@@ -97,47 +115,17 @@
                         <h3 class="text-2xl font-bold text-gray-800">Daftar Arsip</h3>
                     </div>
                     <span class="px-3 py-1 bg-gray-100 text-gray-700 text-sm font-medium rounded-md">
-                        {{ $arsip }} Arsip
+                        {{ $arsip ?? $dokumenTersimpan }} Arsip
                     </span>
                 </div>
 
                 @php
-                    $arsip_dummy = [
-                        [
-                            'nama' => 'Pengajuan Budget Marketing Q1 2024',
-                            'status_kelengkapan' => 'Lengkap',
-                            'status_verifikasi' => 1,
-                            'is_archive' => 1,
-                            'created_at' => '2024-01-15'
-                        ],
-                        [
-                            'nama' => 'Pengajuan Dana Operasional Januari',
-                            'status_kelengkapan' => 'Lengkap',
-                            'status_verifikasi' => 1,
-                            'is_archive' => 1,
-                            'created_at' => '2024-01-20'
-                        ],
-                        [
-                            'nama' => 'Reimbursement Perjalanan Dinas',
-                            'status_kelengkapan' => 'Lengkap',
-                            'status_verifikasi' => 1,
-                            'is_archive' => 1,
-                            'created_at' => '2024-02-01'
-                        ],
-                        [
-                            'nama' => 'Pengajuan Pembelian Aset IT',
-                            'status_kelengkapan' => 'Lengkap',
-                            'status_verifikasi' => 1,
-                            'is_archive' => 1,
-                            'created_at' => '2024-02-05'
-                        ],
-                    ];
                     $no = 1;
                 @endphp
 
                 {{-- List Items --}}
                 <div class="space-y-3">
-                    @forelse ($arsiplist as $ar)
+                    @forelse ($arsiplist ?? [] as $ar)
                         <div class="flex items-center p-4 bg-white border border-gray-200 rounded-md hover:border-gray-300 hover:shadow-sm transition-all duration-200">
                             {{-- Number Badge --}}
                             <div class="flex-shrink-0 w-10 h-10 flex items-center justify-center bg-[#003A8F] text-white font-semibold text-sm rounded-md">
@@ -149,43 +137,10 @@
                                 <div class="font-semibold text-gray-800 mb-2">
                                     {{ $ar->archive_name }}
                                 </div>
-
-                                {{-- <div class="flex flex-wrap items-center gap-2">
-                                    @if ($arsip['status_kelengkapan'] == 'Lengkap')
-                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            Lengkap
-                                        </span>
-                                    @endif
-
-                                    @if ($arsip['status_verifikasi'] == 1)
-                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-green-100 text-green-700">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                                            </svg>
-                                            Diverifikasi
-                                        </span>
-                                    @endif
-
-                                    @if ($arsip['is_archive'] == 1)
-                                        <span class="inline-flex items-center px-2.5 py-1 text-xs font-medium rounded-md bg-purple-100 text-purple-700">
-                                            <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                                            </svg>
-                                            Diarsipkan
-                                        </span>
-                                    @endif
-
-                                    <span class="text-xs text-gray-500">
-                                        {{ \Carbon\Carbon::parse($arsip['created_at'])->diffForHumans() }}
-                                    </span>
-                                </div> --}}
                             </a>
 
                             {{-- Action Button --}}
-                            <a href="{{route('digital.show', $ar->id)}}" class="flex-shrink-0 ml-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-xl flex items-center">
+                            <a href="{{ route('digital.show', $ar->id) }}" class="flex-shrink-0 ml-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all duration-300 shadow-md hover:shadow-xl flex items-center">
                                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                                     <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/>
                                     <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/>
@@ -210,4 +165,32 @@
         </div>
     </div>
 
+    {{-- CHART SCRIPT --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ctx = document.getElementById('documentChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: {!! json_encode($chartLabels ?? ['Dokumen Tersimpan', 'Belum Upload File']) !!},
+                    datasets: [{
+                        label: 'Jumlah Dokumen',
+                        data: [15, 5], // Ini angka dummy (15 tersimpan, 5 belum upload)
+                        backgroundColor: ['#4e73df', '#e74a3b'],
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </x-app-layout>

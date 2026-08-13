@@ -25,12 +25,12 @@ class UserController extends Controller
 
         // BELUM DIVERIFIKASI
         $belum_diverifikasi = BudgetSubmission::where('user_id', $userId)
-            ->where('verification_status', 'Belum Diverifikasi')
+            ->where('verification_status', 0)
             ->count();
 
         // SELESAI
         $selesai = BudgetSubmission::where('user_id', $userId)
-            ->where('verification_status', 'Selesai')
+            ->where('verification_status', 1)
             ->count();
 
         // BudgetSubmission TERBARU
@@ -48,16 +48,32 @@ class UserController extends Controller
         ));
     }
 
-    // public function pengajuan()
-    // {
-    //     return view('user.pengajuan.pengajuan');
-    // }
-
-    public function worklist() // tidak dipakai lagi
+    public function worklist()
     {
-        $proses_submissions = BudgetSubmission::with('user')->where('user_id', Auth::id())->get();
-        $all_submissions = BudgetSubmission::with('user')->where('user_id', Auth::id())->latest()->paginate(10, ['*'], 'all_submit');
-        $archive_submit = BudgetSubmission::with('user')->where('user_id', Auth::id())->where('is_archive', 1)->paginate(10, ['*'], 'archive_submit');
+        $userId = Auth::id();
+
+        // 1. Submit Dalam Proses (Belum Lengkap DAN Belum Diverifikasi 0)
+        $proses_submissions = BudgetSubmission::with('user')
+            ->where('user_id', $userId)
+            ->where('requirements_status', 'Belum Lengkap')
+            ->where('verification_status', 0)
+            ->latest()
+            ->paginate(10, ['*'], 'proses_submit');
+
+        // 2. Semua Submit
+        $all_submissions = BudgetSubmission::with('user')
+            ->where('user_id', $userId)
+            ->latest()
+            ->paginate(10, ['*'], 'all_submit');
+
+        // 3. Submit Selesai / Diverifikasi (Lengkap DAN Sudah Diverifikasi 1)
+        $archive_submit = BudgetSubmission::with('user')
+            ->where('user_id', $userId)
+            ->where('requirements_status', 'Lengkap')
+            ->where('verification_status', 1)
+            ->latest()
+            ->paginate(10, ['*'], 'archive_submit');
+
         return view('features.pengajuan.submit_monitoring', compact('proses_submissions', 'all_submissions', 'archive_submit'));
     }
 
